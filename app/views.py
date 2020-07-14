@@ -71,7 +71,28 @@ def profile(request, uid):
 def rule(request, v):
     if v == 'list':
         proc = shell_cmd('iptables', '-L').split('\n')
+        # proc = ['Chain INPUT (policy ACCEPT)', 'target     prot opt source               destination         ', 'DROP       tcp  --  anywhere             anywhere             tcp dpt:3240', '', 'Chain FORWARD (policy ACCEPT)', 'target     prot opt source               destination         ', 'ACCEPT     all  --  ppp-94-69-139-28.home.otenet.gr  anywhere            ', 'ACCEPT     all  --  109-252-86-207.nat.spd-mgts.ru  anywhere            ', 'ACCEPT     all  --  109-252-86-207.nat.spd-mgts.ru  anywhere            ', 'ACCEPT     all  --  31.135.125.217       anywhere            ', 'ACCEPT     all  --  46.243.9.15          anywhere            ', 'DROP       tcp  --  anywhere             anywhere             tcp dpt:3240', '', 'Chain OUTPUT (policy ACCEPT)', 'target     prot opt source               destination         ', 'DROP       tcp  --  anywhere             10.11.1.2            tcp dpt:3240', '']
         context = {"variant": v, "shell": proc, }
+    elif v == 'add':
+        if request.GET['ip']:
+            ip = request.GET['ip']
+            if request.GET['time']:
+                time = request.GET['time']
+            else:
+                time = 3
+            shell_cmd('iptables', '-I FORWARD -s ' + ip + ' -j ACCEPT')
+        else:
+            err = "Не указан IP"
+        proc = shell_cmd('iptables', '-L').split('\n')
+        context = {"variant": v, "shell": proc, "error": err}
+    elif v == 'delete':
+        if request.GET['ip']:
+            ip = request.GET['ip']
+            shell_cmd('iptables', '-D FORWARD -s ' + ip + ' -j ACCEPT')
+        else:
+            err = "Не указан IP"
+        proc = shell_cmd('iptables', '-L').split('\n')
+        context = {"variant": v, "shell": proc, "error": err}
     else:
         context = {"variant": v, }
     try:

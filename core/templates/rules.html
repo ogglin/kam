@@ -1,4 +1,3 @@
-
 {% extends "layouts/base.html" %}
 
 {% block title %} Typography {% endblock title %}
@@ -7,8 +6,36 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <h2>{{ variant }}</h2>
-    <code>{{ shell }}</code>
+    <h2>Список разрешений</h2>
+    {% for s in shell %}
+        {% if 'ACCEPT' in s and 'Chain' not in s %}
+            <p>{{ s }}</p>
+        {% endif %}
+    {% endfor %}
+    <hr>
+    <h4 class="card-title">Добавить разршение</h4>
+    <form class="forms-sample" action="/rule/add" method="GET">
+        <div class="form-group">
+            <label for="InputIP">IP адрес</label>
+            <input type="text" class="form-control" id="InputIP" placeholder="введите ip" name="ip">
+        </div>
+        <div class="form-group">
+            <label for="InputTime">Время в минутах</label>
+            <input type="number" class="form-control" id="InputTime" placeholder="время" name="time">
+        </div>
+        <button type="submit" class="btn btn-success mr-2">Добавить</button>
+        <button type="reset" class="btn btn-light">Очистить</button>
+    </form>
+    <hr>
+    <h4 class="card-title">Удалить разршение</h4>
+    <form class="forms-sample" action="/rule/delete" method="GET">
+        <div class="form-group">
+            <label for="InputIP">IP адрес</label>
+            <input type="text" class="form-control" id="InputIP" placeholder="введите ip" name="ip">
+        </div>
+        <button type="submit" class="btn btn-danger mr-2">Удалить</button>
+        <button type="reset" class="btn btn-light">Очистить</button>
+    </form>
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
