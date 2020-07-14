@@ -16,8 +16,8 @@ def shell_cmd(cmd, param):
     if '-L' in param:
         proc = subprocess.check_output([cmd, param])
     else:
-        print([cmd, param])
-        subprocess.run([cmd, param])
+        print(cmd)
+        subprocess.run(cmd)
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # o, e = proc.communicate()
@@ -85,7 +85,7 @@ def rule(request, v):
                 time = request.GET['time']
             else:
                 time = 3
-            shell_cmd('iptables', '-I FORWARD -s ' + ip + ' -j ACCEPT')
+            shell_cmd('iptables -I FORWARD -s ' + ip + ' -j ACCEPT')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
