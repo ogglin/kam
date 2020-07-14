@@ -15,7 +15,7 @@ from app import models
 def shell_cmd(cmd, *kwargs):
     print(kwargs)
     if '-L' in kwargs:
-        proc = subprocess.check_output([cmd, kwargs])
+        proc = subprocess.check_output([cmd, kwargs[0]])
     else:
         print(cmd, kwargs)
         subprocess.run([cmd, kwargs])
