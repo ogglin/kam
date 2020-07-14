@@ -70,7 +70,7 @@ def profile(request, uid):
 @login_required(login_url="/login/")
 def rule(request, v):
     if v == 'list':
-        proc = shell_cmd('iptables', '-L')
+        proc = shell_cmd('iptables', '-L').split('\n')
         context = {"variant": v, "shell": proc, }
     else:
         context = {"variant": v, }
