@@ -13,7 +13,11 @@ from app import models
 
 
 def shell_cmd(cmd, param):
-    proc = subprocess.check_output([cmd, param])
+    if '-L' in param:
+        proc = subprocess.check_output([cmd, param])
+    else:
+        subprocess.call([cmd, param])
+        proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # o, e = proc.communicate()
     # s = str(proc.returncode)
@@ -72,7 +76,6 @@ def rule(request, v):
     err = ''
     if v == 'list':
         proc = shell_cmd('iptables', '-L').decode().split('\n')
-        # proc = ['Chain INPUT (policy ACCEPT)', 'target     prot opt source               destination         ', 'DROP       tcp  --  anywhere             anywhere             tcp dpt:3240', '', 'Chain FORWARD (policy ACCEPT)', 'target     prot opt source               destination         ', 'ACCEPT     all  --  ppp-94-69-139-28.home.otenet.gr  anywhere            ', 'ACCEPT     all  --  109-252-86-207.nat.spd-mgts.ru  anywhere            ', 'ACCEPT     all  --  109-252-86-207.nat.spd-mgts.ru  anywhere            ', 'ACCEPT     all  --  31.135.125.217       anywhere            ', 'ACCEPT     all  --  46.243.9.15          anywhere            ', 'DROP       tcp  --  anywhere             anywhere             tcp dpt:3240', '', 'Chain OUTPUT (policy ACCEPT)', 'target     prot opt source               destination         ', 'DROP       tcp  --  anywhere             10.11.1.2            tcp dpt:3240', '']
         context = {"variant": v, "shell": proc, }
     elif v == 'add':
         if request.GET['ip']:
