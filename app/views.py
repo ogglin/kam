@@ -86,7 +86,7 @@ def rule(request, v):
                 time = request.GET['time']
             else:
                 time = 3
-            shell_cmd('iptables', '-I FORWARD', '-s ' + ip, ' -j ACCEPT')
+            shell_cmd('iptables', ' -I FORWARD', ' -s ' + ip, ' -j ACCEPT')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
