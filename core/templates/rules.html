@@ -12,6 +12,10 @@
             <p>{{ s }}</p>
         {% endif %}
     {% endfor %}
+    {% if err %}
+        <hr>
+        <p class="text-danger">{{ err }}</p>
+    {% endif %}
     <hr>
     <h4 class="card-title">Добавить разршение</h4>
     <form class="forms-sample" action="/rule/add" method="GET">
