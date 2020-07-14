@@ -13,12 +13,11 @@ from app import models
 
 
 def shell_cmd(cmd, *kwargs):
-    print(kwargs)
     if '-L' in kwargs:
         proc = subprocess.check_output([cmd, kwargs[0]])
     else:
         print(cmd, kwargs)
-        subprocess.run([cmd, kwargs])
+        subprocess.run([cmd, kwargs[0], kwargs[1], kwargs[2]])
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # o, e = proc.communicate()
