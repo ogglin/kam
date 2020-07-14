@@ -12,12 +12,12 @@ from django import template
 from app import models
 
 
-def shell_cmd(cmd, param):
-    if '-L' in param:
-        proc = subprocess.check_output([cmd, param])
+def shell_cmd(cmd, *kwargs):
+    if '-L' in kwargs:
+        proc = subprocess.check_output([cmd, kwargs])
     else:
-        print(cmd)
-        subprocess.run(cmd)
+        print(cmd, kwargs)
+        subprocess.run([cmd, kwargs])
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # o, e = proc.communicate()
@@ -85,7 +85,7 @@ def rule(request, v):
                 time = request.GET['time']
             else:
                 time = 3
-            shell_cmd('iptables -I FORWARD -s ' + ip + ' -j ACCEPT', '')
+            shell_cmd('iptables', '-I FORWARD', '-s ' + ip, ' -j ACCEPT')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
@@ -93,7 +93,7 @@ def rule(request, v):
     elif v == 'delete':
         if request.GET['ip']:
             ip = request.GET['ip']
-            shell_cmd('iptables -D FORWARD -s ' + ip + ' -j ACCEPT', '')
+            shell_cmd('iptables', '-D FORWARD', '-s ' + ip, ' -j ACCEPT')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
