@@ -16,7 +16,7 @@ def shell_cmd(cmd, *kwargs):
     if '-L' in kwargs:
         proc = subprocess.check_output([cmd, kwargs[0]])
     else:
-        print(cmd, kwargs)
+        print(cmd, kwargs[0], kwargs[1], kwargs[2])
         subprocess.run([cmd, kwargs[0], kwargs[1], kwargs[2]])
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
