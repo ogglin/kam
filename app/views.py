@@ -13,10 +13,11 @@ from app import models
 
 
 def shell_cmd(cmd):
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    o, e = proc.communicate()
-    s = str(proc.returncode)
-    return s, o, e
+    proc = subprocess.check_output(["ping", "www.yahoo.com"])
+    # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    # o, e = proc.communicate()
+    # s = str(proc.returncode)
+    return proc
 
 @login_required(login_url="/login/")
 def index(request):
@@ -68,8 +69,8 @@ def profile(request, uid):
 @login_required(login_url="/login/")
 def rule(request, v):
     if v == 'list':
-        s, e, o = shell_cmd('iptables -L')
-        context = {"variant": v, "shell": s, }
+        proc = shell_cmd('iptables -L')
+        context = {"variant": v, "shell": proc, }
     else:
         context = {"variant": v, }
     try:
