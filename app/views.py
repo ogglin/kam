@@ -17,7 +17,7 @@ def shell_cmd(cmd, param):
         proc = subprocess.check_output([cmd, param])
     else:
         print([cmd, param])
-        subprocess.call([cmd, param])
+        subprocess.run([cmd, param])
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # o, e = proc.communicate()
