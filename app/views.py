@@ -85,7 +85,7 @@ def rule(request, v):
                 time = request.GET['time']
             else:
                 time = 3
-            shell_cmd('iptables -I FORWARD -s ' + ip + ' -j ACCEPT')
+            shell_cmd('iptables -I FORWARD -s ' + ip + ' -j ACCEPT', '')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
@@ -93,7 +93,7 @@ def rule(request, v):
     elif v == 'delete':
         if request.GET['ip']:
             ip = request.GET['ip']
-            shell_cmd('iptables -D FORWARD -s ' + ip + ' -j ACCEPT')
+            shell_cmd('iptables -D FORWARD -s ' + ip + ' -j ACCEPT', '')
         else:
             err = "Не указан IP"
         proc = shell_cmd('iptables', '-L').decode().split('\n')
