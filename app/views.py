@@ -17,7 +17,6 @@ def shell_cmd(cmd, *kwargs):
         proc = subprocess.check_output([cmd, kwargs[0]])
     else:
         cm = cmd + kwargs[0] + kwargs[1] + kwargs[2]
-        print(cm)
         subprocess.run(cm, shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
         proc = subprocess.check_output(['iptables', '-L'])
     # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -28,7 +27,12 @@ def shell_cmd(cmd, *kwargs):
 
 @login_required(login_url="/login/")
 def index(request):
-    return render(request, "index.html")
+    proc = shell_cmd('iptables', '-L').decode().split('\n')
+    rule_list = proc
+    context = {
+        'rule_list': rule_list,
+    }
+    return render(request, "index.html", context)
 
 
 @login_required(login_url="/login/")
