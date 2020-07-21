@@ -117,3 +117,11 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class UserBills(models.Model):
+    user_id = models.ForeignKey(AuthUser, related_name='+', on_delete=models.CASCADE)
+    amount = models.DecimalField('Баланс', decimal_places=2)
+
+    class Meta:
+        order_with_respect_to = 'user_id'

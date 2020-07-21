@@ -72,8 +72,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kamvpn',
+        'USER': 'kamvpn',
+        'PASSWORD': '1J9qROg5RvcC',
+        'HOST': '51.178.55.2',
+        'PORT': 5432
     }
 }
 
